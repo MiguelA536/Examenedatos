@@ -6,7 +6,7 @@ package com.mycompany.examen;
 
 /**
  *
- * @author migue
+ * @author migue /develop
  */
 public class Examen {
 
