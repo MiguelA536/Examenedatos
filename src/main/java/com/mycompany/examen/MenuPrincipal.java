@@ -81,7 +81,8 @@ public class MenuPrincipal {
                         colaAtencion.verHistorial();
                         break;
                     case 8:
-
+                        //La pila solo se omstrara una vez ya que hace pop()
+                        colaAtencion.verPilaDevoluciones();
                         break;
                     case 9:
 
