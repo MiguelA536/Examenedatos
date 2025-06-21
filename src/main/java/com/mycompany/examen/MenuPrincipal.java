@@ -12,6 +12,7 @@ import java.util.*;
  */
 public class MenuPrincipal {
     public void ejecutar() {
+        RegistroEstudiantes e1 = new RegistroEstudiantes();
         Scanner entrada = new Scanner(System.in);
         int opcion;
 
@@ -38,10 +39,10 @@ public class MenuPrincipal {
                 opcion = entrada.nextInt();
                 switch (opcion) {
                     case 1:
-
+                        e1.registrarEstudiante();
                         break;
                     case 2:
-
+                        e1.verListaEstudiantes();
                         break;
                     case 3:
 
