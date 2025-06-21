@@ -32,7 +32,7 @@ public class RegistroEstudiantes {
 
         Estudiante nuevo = new Estudiante(nombre, id, grado, grupo);
         listaEstudiantes.add(nuevo);
-        System.out.println("✅ Estudiante registrado con éxito.");
+        System.out.println("Estudiante registrado con éxito.");
     }
     
     //Método para ver la lista de estudiantes
