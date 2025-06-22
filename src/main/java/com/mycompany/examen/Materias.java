@@ -28,7 +28,7 @@ public class Materias {
     }
 
     public Materia obtenerMateriaPorCodigo(String codigo) {
-        return mapaMaterias.get(codigo.trim());
+        return mapaMaterias.get(codigo.trim());  // <-- evita errores por espacios
     }
 
     public Materia obtenerMateriaPorNombre(String nombre) {

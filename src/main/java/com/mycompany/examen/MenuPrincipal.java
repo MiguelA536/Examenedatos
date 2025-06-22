@@ -57,6 +57,7 @@ public class MenuPrincipal {
 
             try {
                 opcion = entrada.nextInt();
+                entrada.nextLine();
                 switch (opcion) {
                     case 1:
                         registroEstudiante.registrarEstudiante();
@@ -88,54 +89,39 @@ public class MenuPrincipal {
                         break;
                     case 9: // Insertar calificación en materia
                         System.out.print("Ingresa ID o nombre del alumno: ");
-                        String alumno = entrada.nextLine(); // Se pide pero no se usa aún para guardar
-                        entrada.nextLine();
+                        String alumno = entrada.nextLine();  // Solo una vez, no repetir entrada.nextLine()
 
-                        System.out.print("¿Buscar materia por código (c) o nombre (n)? ");
-                        String opcionMateria = entrada.nextLine();
+                        System.out.print("Ingresa nombre de la materia: ");
+                        String nombreMateria = entrada.nextLine();
 
-                        Materia materia = null;
-                        if (opcionMateria.equalsIgnoreCase("c")) {
-                            System.out.print("Ingresa código de materia: ");
-                            String codigo = entrada.nextLine();
-                            materia = materias.obtenerMateriaPorCodigo(codigo);
-                        } else if (opcionMateria.equalsIgnoreCase("n")) {
-                            System.out.print("Ingresa nombre de materia: ");
-                            String nombreMateria = entrada.nextLine();
-                            materia = materias.obtenerMateriaPorNombre(nombreMateria);
-                        }
+                        Materia materia = materias.obtenerMateriaPorNombre(nombreMateria);
 
-                        if (materia == null) {
+                        if (materia != null) {
+                            System.out.print("Ingresa calificación (puede tener decimales): ");
+                            try {
+                                float calif = Float.parseFloat(entrada.nextLine());
+                                materia.getArbolCalificaciones().insertar(calif);
+                                System.out.println("Calificación insertada para la materia " + materia.getNombre());
+                            } catch (NumberFormatException e) {
+                                System.out.println("Calificación inválida.");
+                            }
+                        } else {
                             System.out.println("Materia no encontrada.");
-                            break;
                         }
-
-                        System.out.print("Ingresa calificación (puede tener decimales): ");
-                        float calif;
-                        try {
-                            calif = Float.parseFloat(entrada.nextLine());
-                        } catch (NumberFormatException e) {
-                            System.out.println("Calificación inválida.");
-                            break;
-                        }
-
-
-                        materia.getArbolCalificaciones().insertar(calif);
-                        System.out.println("Calificación insertada para la materia " + materia.getNombre());
                         break;
-
                     case 10: // Mostrar calificaciones en orden inorden de materia
                         System.out.print("¿Buscar materia por código (c) o nombre (n)? ");
-                        String opcionBusqueda = entrada.nextLine();
+                        String opcionBusqueda = entrada.nextLine();  // solo una vez
 
                         Materia materiaMostrar = null;
+
                         if (opcionBusqueda.equalsIgnoreCase("c")) {
                             System.out.print("Ingresa código de la materia: ");
-                            String codigoMat = entrada.nextLine();
+                            String codigoMat = entrada.nextLine().trim();  // <- asegúrate de limpiar espacios
                             materiaMostrar = materias.obtenerMateriaPorCodigo(codigoMat);
                         } else if (opcionBusqueda.equalsIgnoreCase("n")) {
                             System.out.print("Ingresa nombre de la materia: ");
-                            String nombreMat = entrada.nextLine();
+                            String nombreMat = entrada.nextLine().trim();
                             materiaMostrar = materias.obtenerMateriaPorNombre(nombreMat);
                         }
 
@@ -148,10 +134,11 @@ public class MenuPrincipal {
 
                     case 11: // Registrar nueva materia
                         System.out.print("Ingresa código de la materia: ");
-                        String codigoNueva = entrada.nextLine();
-                        entrada.nextLine();
+                        String codigoNueva = entrada.nextLine();  // Solo una vez, sin repetir entrada.nextLine()
+
                         System.out.print("Ingresa nombre de la materia: ");
                         String nombreNueva = entrada.nextLine();
+
                         materias.registrarMateria(codigoNueva, nombreNueva);
                         break;
 
