@@ -11,10 +11,12 @@ import java.util.*;
  * @author migue
  */
 public class MenuPrincipal {
+
     public void ejecutar() {
         RegistroEstudiantes registroEstudiante = new RegistroEstudiantes();
         GestorLibros gestorLibros = new GestorLibros();
         ColaAtencion colaAtencion = new ColaAtencion();
+        Materias materias = new Materias();
         Scanner entrada = new Scanner(System.in);
         int opcion;
 
@@ -84,18 +86,79 @@ public class MenuPrincipal {
                         //La pila solo se omstrara una vez ya que hace pop()
                         colaAtencion.verPilaDevoluciones();
                         break;
-                    case 9:
+                    case 9: // Insertar calificación en materia
+                        System.out.print("Ingresa ID o nombre del alumno: ");
+                        String alumno = entrada.nextLine(); // Se pide pero no se usa aún para guardar
+                        entrada.nextLine();
 
-                        break;
-                    case 10:
+                        System.out.print("¿Buscar materia por código (c) o nombre (n)? ");
+                        String opcionMateria = entrada.nextLine();
 
-                        break;
-                    case 11:
+                        Materia materia = null;
+                        if (opcionMateria.equalsIgnoreCase("c")) {
+                            System.out.print("Ingresa código de materia: ");
+                            String codigo = entrada.nextLine();
+                            materia = materias.obtenerMateriaPorCodigo(codigo);
+                        } else if (opcionMateria.equalsIgnoreCase("n")) {
+                            System.out.print("Ingresa nombre de materia: ");
+                            String nombreMateria = entrada.nextLine();
+                            materia = materias.obtenerMateriaPorNombre(nombreMateria);
+                        }
 
-                        break;
-                    case 12:
+                        if (materia == null) {
+                            System.out.println("Materia no encontrada.");
+                            break;
+                        }
 
+                        System.out.print("Ingresa calificación (puede tener decimales): ");
+                        float calif;
+                        try {
+                            calif = Float.parseFloat(entrada.nextLine());
+                        } catch (NumberFormatException e) {
+                            System.out.println("Calificación inválida.");
+                            break;
+                        }
+
+
+                        materia.getArbolCalificaciones().insertar(calif);
+                        System.out.println("Calificación insertada para la materia " + materia.getNombre());
                         break;
+
+                    case 10: // Mostrar calificaciones en orden inorden de materia
+                        System.out.print("¿Buscar materia por código (c) o nombre (n)? ");
+                        String opcionBusqueda = entrada.nextLine();
+
+                        Materia materiaMostrar = null;
+                        if (opcionBusqueda.equalsIgnoreCase("c")) {
+                            System.out.print("Ingresa código de la materia: ");
+                            String codigoMat = entrada.nextLine();
+                            materiaMostrar = materias.obtenerMateriaPorCodigo(codigoMat);
+                        } else if (opcionBusqueda.equalsIgnoreCase("n")) {
+                            System.out.print("Ingresa nombre de la materia: ");
+                            String nombreMat = entrada.nextLine();
+                            materiaMostrar = materias.obtenerMateriaPorNombre(nombreMat);
+                        }
+
+                        if (materiaMostrar == null) {
+                            System.out.println("Materia no encontrada.");
+                        } else {
+                            materiaMostrar.getArbolCalificaciones().inorden();
+                        }
+                        break;
+
+                    case 11: // Registrar nueva materia
+                        System.out.print("Ingresa código de la materia: ");
+                        String codigoNueva = entrada.nextLine();
+                        entrada.nextLine();
+                        System.out.print("Ingresa nombre de la materia: ");
+                        String nombreNueva = entrada.nextLine();
+                        materias.registrarMateria(codigoNueva, nombreNueva);
+                        break;
+
+                    case 12: // Ver materias registradas
+                        materias.verMaterias();
+                        break;
+
                     case 13:
 
                         break;
